@@ -1,0 +1,24 @@
+version: '3.5'
+
+services:
+  hub:
+    image: selenium/hub:3.141.59-20210607
+    container_name: hub
+    ports:
+      - '${HUB_PORT}:${HUB_PORT}'
+  chrome:
+    image: selenium/node-chrome:3.141.59-20210607
+    container_name: chrome
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
+      - HUB_PORT=${HUB_PORT}
+  firefox:
+    image: selenium/node-firefox:3.141.59-20210607
+    container_name: firefox
+    depends_on:
+      - hub
+    environment:
+      - HUB_HOST=hub
+      - HUB_PORT=${HUB_PORT}
