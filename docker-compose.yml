@@ -14,6 +14,8 @@ services:
     environment:
       - HUB_HOST=hub
       - HUB_PORT=${HUB_PORT}
+    ports:
+      - ${CHROME_PORT}:5555
   firefox:
     image: selenium/node-firefox:3.141.59-20210607
     container_name: firefox
@@ -22,3 +24,5 @@ services:
     environment:
       - HUB_HOST=hub
       - HUB_PORT=${HUB_PORT}
+    ports:
+      - ${FIREFOX_PORT}:5555
