@@ -2,27 +2,39 @@ version: '3.5'
 
 services:
   hub:
-    image: selenium/hub:3.141.59-20210607
+    image: selenium/hub
     container_name: hub
     ports:
-      - '${HUB_PORT}:${HUB_PORT}'
+      - "${PUBLISH_PORT}:${PUBLISH_PORT}"
+      - "${SUBSCRIBE_PORT}:${SUBSCRIBE_PORT}"
+      - "${HUB_PORT}:${HUB_PORT}"
   chrome:
-    image: selenium/node-chrome:3.141.59-20210607
+    image: selenium/node-chrome
     container_name: chrome
     depends_on:
       - hub
     environment:
-      - HUB_HOST=hub
-      - HUB_PORT=${HUB_PORT}
-    ports:
-      - ${CHROME_PORT}:5555
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=${PUBLISH_PORT}
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=${SUBSCRIBE_PORT}
+      - SE_NODE_GRID_URL=http://localhost:${HUB_PORT}
   firefox:
-    image: selenium/node-firefox:3.141.59-20210607
+    image: selenium/node-firefox
     container_name: firefox
     depends_on:
       - hub
     environment:
-      - HUB_HOST=hub
-      - HUB_PORT=${HUB_PORT}
-    ports:
-      - ${FIREFOX_PORT}:5555
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=${PUBLISH_PORT}
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=${SUBSCRIBE_PORT}
+      - SE_NODE_GRID_URL=http://localhost:${HUB_PORT}
+  edge:
+    image: selenium/node-edge
+    container_name: edge
+    depends_on:
+      - hub
+    environment:
+      - SE_EVENT_BUS_HOST=hub
+      - SE_EVENT_BUS_PUBLISH_PORT=${PUBLISH_PORT}
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=${SUBSCRIBE_PORT}
+      - SE_NODE_GRID_URL=http://localhost:${HUB_PORT}
