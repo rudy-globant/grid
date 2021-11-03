@@ -11,30 +11,33 @@ services:
   chrome:
     image: selenium/node-chrome
     container_name: chrome
+    shm_size: 1gb
     depends_on:
       - hub
     environment:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=${PUBLISH_PORT}
       - SE_EVENT_BUS_SUBSCRIBE_PORT=${SUBSCRIBE_PORT}
-      - SE_NODE_GRID_URL=http://localhost:${HUB_PORT}
+      - SE_NODE_GRID_URL=http://${HUB_HOST}:${HUB_PORT}
   firefox:
     image: selenium/node-firefox
     container_name: firefox
+    shm_size: 1gb
     depends_on:
       - hub
     environment:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=${PUBLISH_PORT}
       - SE_EVENT_BUS_SUBSCRIBE_PORT=${SUBSCRIBE_PORT}
-      - SE_NODE_GRID_URL=http://localhost:${HUB_PORT}
+      - SE_NODE_GRID_URL=http://${HUB_HOST}:${HUB_PORT}
   edge:
     image: selenium/node-edge
     container_name: edge
+    shm_size: 1gb
     depends_on:
       - hub
     environment:
       - SE_EVENT_BUS_HOST=hub
       - SE_EVENT_BUS_PUBLISH_PORT=${PUBLISH_PORT}
       - SE_EVENT_BUS_SUBSCRIBE_PORT=${SUBSCRIBE_PORT}
-      - SE_NODE_GRID_URL=http://localhost:${HUB_PORT}
+      - SE_NODE_GRID_URL=http://${HUB_HOST}:${HUB_PORT}
